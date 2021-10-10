@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:padding="3dp"
+        android:stretchColumns="1"
+        android:background="@drawable/update_drawable" >
+        <TableRow>
+            <TextView
+                android:text="ID:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/id_update_edit"
+                android:focusable="false"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="詐騙手法:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/skill_update_edit"
+                android:hint="詐騙方法(電話、簡訊、E-mail)"
+                android:inputType="text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="詐騙電話:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:hint="請輸入市內電話(須加區碼)或手機號碼"
+                android:id="@+id/phone_update_edit"
+                android:inputType="number"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:text="被騙時間:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/datetime_update_edit"
+                android:inputType="date"
+                android:hint="日期: YYYY-MM-DD "
+                android:onClick="datePicker"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="備註:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/note_update_edit"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="3dp"
+        android:background="@drawable/update_drawable" >
+        <Button
+            android:id="@+id/ok_update_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="DoUpdate"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:onClick="changeOk" />
+        <Button
+            android:id="@+id/cancel_update_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="5sp"
+            android:text="@android:string/cancel"
+            android:onClick="changeNo"  />
+    </LinearLayout>
+</LinearLayout>
+

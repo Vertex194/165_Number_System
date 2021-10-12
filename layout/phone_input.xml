@@ -82,13 +82,20 @@
             android:text="@android:string/ok"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:onClick="BSubmit" />
-
+        <Button
+            android:id="@+id/insert_back_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="主選單"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:onClick="GoHome"  />
         <Button
             android:id="@+id/btn_insert_cancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@android:string/cancel"
+            android:text="清除資料"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:onClick="BCancel"  />
     </LinearLayout>

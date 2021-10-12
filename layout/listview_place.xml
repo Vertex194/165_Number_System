@@ -32,5 +32,12 @@
         android:layout_toRightOf="@id/phone_listview"
         android:paddingLeft="5sp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/note_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/phone_listview"
+        android:paddingLeft="5sp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

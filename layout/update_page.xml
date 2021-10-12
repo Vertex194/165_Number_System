@@ -16,6 +16,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             <EditText
                 android:id="@+id/id_update_edit"
+                android:inputType="text"
                 android:focusable="false"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
@@ -50,7 +51,6 @@
                 android:id="@+id/datetime_update_edit"
                 android:inputType="date"
                 android:hint="日期: YYYY-MM-DD "
-                android:onClick="datePicker"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </TableRow>
         <TableRow>

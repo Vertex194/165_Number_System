@@ -1,5 +1,8 @@
 package dk.yj;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Member {
     private long id;
     private String skill;
@@ -44,9 +47,13 @@ public class Member {
     public String getDatetime() {
         return datetime;
     }
-
     public void setDatetime(String datetime) {
         this.datetime = datetime;
+    }
+    public void setDatetime(long now) {
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        datetime = sdf.format(date);
     }
 
     public String getNote() {

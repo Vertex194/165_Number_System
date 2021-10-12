@@ -1,4 +1,6 @@
 package dk.yj;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,7 +25,7 @@ public class Data01Activity extends AppCompatActivity {
     private static final int[] IDS = {
             R.id.id_listview,R.id.skill_listview,R.id.phone_listview,R.id.datetime_listview};
     private static final int UPDATE_REQUEST_CODE = 0;
-    private static final int SEARCH_REQUEST_CODE = 1;
+    private static final int SEARCH_REQUEST_CODE = 2;
     private MemberDAO memberDAO;
     private ListView list_view;
     @Override
@@ -31,7 +33,7 @@ public class Data01Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data01);
         // 讀取顯示資料用的ListView物件
-        list_view = findViewById(R.id.list_view);
+        list_view = (ListView) findViewById(R.id.list_view);
         // 為ListView物件註冊Context Menu
         registerForContextMenu(list_view);
         // 建立資料存取物件
@@ -42,6 +44,12 @@ public class Data01Activity extends AppCompatActivity {
         refresh();
         processControllers();
     }
+    private void home() {
+        Intent intent= new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    //物件初始化
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 取得載入選單用的MenuInflater物件
@@ -51,7 +59,7 @@ public class Data01Activity extends AppCompatActivity {
         // 回傳true選單才會顯示
         return true;
     }
-    // 透過APP上的Menu的Icon選擇並呼叫對應子程式
+    // 參數MenuItem是使用者選擇的選單項目物件
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // 取得選單項目的資源編號
@@ -61,7 +69,7 @@ public class Data01Activity extends AppCompatActivity {
             case R.id.refresh_menu:
                 refresh();
                 break;
-            // 新增
+            // 讀取全部資料與顯示
             case R.id.home_menu:
                 home();
                 break;
@@ -73,7 +81,6 @@ public class Data01Activity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    //建立Menu額外操作小介面
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -84,6 +91,7 @@ public class Data01Activity extends AppCompatActivity {
         Member selected = memberDAO.get(info.id);
         // 設定選單標題
         menu.setHeaderTitle(selected.getNote());
+
         // 如果是ListView元件
         if (view == list_view) {
             // 取得載入選單用的MenuInflater物件
@@ -92,7 +100,6 @@ public class Data01Activity extends AppCompatActivity {
             menuInflater.inflate(R.menu.menu_data01_context, menu);
         }
     }
-    // 透過APP上的ListView各個項目，長按項目進行監聽事件判斷並呼叫其子程式
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // 取得讀取選項資訊的AdapterContextMenuInfo物件
@@ -100,10 +107,8 @@ public class Data01Activity extends AppCompatActivity {
                 (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         // 使用AdapterContextMenuInfo物件的編號取得資料
         final Member selected = memberDAO.get(info.id);
-
         // 取得選單項目的資源編號
         int id = item.getItemId();
-
         switch (id) {
             // 修改資料
             case R.id.update_menu:
@@ -137,45 +142,6 @@ public class Data01Activity extends AppCompatActivity {
         }
         return true;
     }
-    //資料更新功能
-    private void refresh() {
-        // 查詢全部資料
-        Cursor cursor = memberDAO.getAllCursor();
-        // 建立給ListView元件使用的Adapter物件
-        // 第一個參數是Context物件
-        // 第二個參數是項目使用的畫面配置資源
-        // 第三個參數是資料查詢後的Cursor物件
-        // 第四個參數是項目顯示資料的欄位名稱陣列
-        // 第五個參數是項目顯示資料的元件資源編號陣列
-        // 第六個參數指定為CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-        SimpleCursorAdapter sca = new SimpleCursorAdapter(
-                this, R.layout.listview_place,
-                cursor, MemberDAO.SHOW_COLUMNS, IDS,
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-        // 設定ListView元件使用的Adapter物件
-        list_view.setAdapter(sca);
-    }
-    private void home() {
-        Intent intent= new Intent(this,MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    //物件初始化
-    private void processControllers() {
-        // 為ListView元件註冊項目點擊事件
-        list_view.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    // 使用SimpleCursorAdapter的ListView元件，
-                    // 在點擊項目後，第四個參數是資料的編號
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id)
-                    {
-                        // 取得使用者點擊的物件
-                        Member member = memberDAO.get(id);
-                        Toast.makeText(Data01Activity.this, member.getNote(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 如果執行確定
@@ -203,6 +169,38 @@ public class Data01Activity extends AppCompatActivity {
                 refresh();
             }
         }
+    }
+    private void refresh() {
+        // 查詢全部資料
+        Cursor cursor = memberDAO.getAllCursor();
+        // 建立給ListView元件使用的Adapter物件
+        // 第一個參數是Context物件
+        // 第二個參數是項目使用的畫面配置資源
+        // 第三個參數是資料查詢後的Cursor物件
+        // 第四個參數是項目顯示資料的欄位名稱陣列
+        // 第五個參數是項目顯示資料的元件資源編號陣列
+        // 第六個參數指定為CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        SimpleCursorAdapter sca = new SimpleCursorAdapter(
+                this, R.layout.listview_place,
+                cursor, MemberDAO.SHOW_COLUMNS, IDS,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        // 設定ListView元件使用的Adapter物件
+        list_view.setAdapter(sca);
+    }
+    private void processControllers() {
+        // 為ListView元件註冊項目點擊事件
+        list_view.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    // 使用SimpleCursorAdapter的ListView元件，
+                    // 在點擊項目後，第四個參數是資料的編號
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                        // 取得使用者點擊的物件
+                        Member place = memberDAO.get(id);
+                        Toast.makeText(Data01Activity.this, place.getNote(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     @Override
     protected void onDestroy() {

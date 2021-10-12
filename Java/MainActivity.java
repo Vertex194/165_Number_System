@@ -16,18 +16,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void UpdatePhone(View view){
-        Intent intent = new Intent(MainActivity.this, UpdateActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    public void SearchPhone(View view){
-        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-        startActivity(intent);
-        finish();
-    }
     public void AllPhone(View view){
         Intent intent = new Intent(MainActivity.this, Data01Activity.class);
+        startActivity(intent);
+        finish();
+    }
+    public void FindPolice(View view){
+        Intent intent = new Intent(MainActivity.this, PoliceMaps.class);
         startActivity(intent);
         finish();
     }

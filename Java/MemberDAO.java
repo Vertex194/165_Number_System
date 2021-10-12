@@ -144,7 +144,7 @@ public class MemberDAO {
         // 設定條件為查詢日期時間欄位的前十個字元，就是日期的部份，
         // 格式為「substr(欄位名稱,開始,個數)='資料'」
         // 字串資料必須在前後加上「'」，數字不用
-        String where = "substr(datetime, 1, 10)='" + date + "'";
+        String where = "SUBSTR(datetime, 1, 10)='" + date + "'";
         // 查詢指定日期條件的資料
         return db.query(TABLE_NAME, SHOW_COLUMNS, where,
                 null, null, null, null);

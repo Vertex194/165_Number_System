@@ -13,14 +13,12 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class UpdateActivity extends Activity {
-    private EditText iu_edit;
-    private EditText su_edit;
-    private EditText pu_edit;
-    private EditText du_edit;
-    private EditText nu_edit;
+    private EditText iu_edit,su_edit,pu_edit,du_edit,nu_edit;
     // 資料庫物件
     private Member member;
     private MemberDAO memberDAO;
+    private Calendar calendar;
+    private int mYear, mMonth, mDay;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +31,29 @@ public class UpdateActivity extends Activity {
         // 取得指定編號的物件
         member = memberDAO.get(id);
         processViews();
-        AutoSetTime();
+        du_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar = Calendar.getInstance();
+                mYear = calendar.get(Calendar.YEAR);
+                mMonth = calendar.get(Calendar.MONTH);
+                mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                Calendar calendar = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(UpdateActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        String singleDay = "";
+                        singleDay = day>0 && day<10 ? "0"+String.valueOf(day) : String.valueOf(day);
+                        int month_c =month+1;
+                        String singleMonth = "";
+                        singleMonth = month_c>0 && month_c<10 ? "0"+String.valueOf(month_c) : String.valueOf(month_c);
+                        du_edit.setText(String.valueOf(year) + "-" + String.valueOf(singleMonth) + "-" + String.valueOf(singleDay));
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
     }
-
     private void processViews() {
         iu_edit = (EditText) findViewById(R.id.id_update_edit);
         su_edit = (EditText) findViewById(R.id.skill_update_edit);
@@ -50,9 +68,6 @@ public class UpdateActivity extends Activity {
         du_edit.setText(member.getDatetime());
         nu_edit.setText(member.getNote());
     }
-    private void AutoSetTime() {
-
-    }
     public void changeOk(View view) {
         // 讀取使用者輸入的資料
         String skillValue = su_edit.getText().toString();
@@ -64,8 +79,8 @@ public class UpdateActivity extends Activity {
         member.setPhone(phoneValue);
         member.setDatetime(datetimeValue);
         member.setNote(noteValue);
-        // 修改
         memberDAO.update(member);
+        // 顯示修改成功
         // 顯示修改成功
         Toast.makeText(this, "Update success!", Toast.LENGTH_SHORT).show();
         Intent intent = getIntent();
@@ -79,18 +94,4 @@ public class UpdateActivity extends Activity {
         finish();
     }
 
-    public void datePicker(View view) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);      //取得現在的日期年月日
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                String datetime = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(day);
-                du_edit.setText(datetime);   //取得選定的日期指定給日期編輯框
-            }
-        }, year, month, day).show();
-    }
 }

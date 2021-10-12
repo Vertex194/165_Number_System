@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.net.Proxy;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,8 @@ public class InsertActivity extends Activity {
     EditText PhoneNumber,Skill,TimeToHappen,Notice;
     Button SubmitCheck;
     private static final String ACTIVITY_TAG="InsertAction";
+    private Calendar calendar;
+    private int mYear, mMonth, mDay;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phone_input);
@@ -29,13 +32,18 @@ public class InsertActivity extends Activity {
         memberDAO = new MemberDAO(this);
 
     }
-
     private void RebornViewID() {
         Skill = findViewById(R.id.skill_insert_edit);
         PhoneNumber = findViewById(R.id.phone_insert_edit);
         TimeToHappen = findViewById(R.id.date_insert_edit);
         Notice = findViewById(R.id.note_insert_edit);
         SubmitCheck = findViewById(R.id.btn_insert_submit);
+    }
+    public void GoHome(View view){
+        Log.d(InsertActivity.ACTIVITY_TAG, "Home Touch");
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
     public void BCancel(View view){
         Log.d(InsertActivity.ACTIVITY_TAG, "Clear Input");
@@ -59,7 +67,7 @@ public class InsertActivity extends Activity {
         boolean skillEmpty =skill_Text.isEmpty();
         boolean inputEmpty =phone_Text.isEmpty();
         boolean timeEmpty =time_Text.isEmpty();
-        boolean noticeEmpty =time_Text.isEmpty();
+        boolean noticeEmpty =notice_Text.isEmpty();
         if(inputEmpty){
             //透過Log.d檢查功能
             Log.d(InsertActivity.ACTIVITY_TAG,"Phone No Input");
@@ -106,17 +114,22 @@ public class InsertActivity extends Activity {
         }
     }
     public void datePicker(View view) {
+        calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);      //取得現在的日期年月日
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(InsertActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                String datetime = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(day);
-                TimeToHappen.setText(datetime);   //取得選定的日期指定給日期編輯框
+                String singleDay = "";
+                singleDay = day>0 && day<10 ? "0"+String.valueOf(day) : String.valueOf(day);
+                int month_c =month+1;
+                String singleMonth = "";
+                singleMonth = month_c>0 && month_c<10 ? "0"+String.valueOf(month_c) : String.valueOf(month_c);
+                TimeToHappen.setText(String.valueOf(year) + "-" + String.valueOf(singleMonth) + "-" + String.valueOf(singleDay));
             }
-        }, year, month, day).show();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 }

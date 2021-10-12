@@ -3,14 +3,12 @@ package dk.yj;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +24,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.search_page);
         process();
     }
+
     private void process() {
         date_search_edit = (EditText) findViewById(R.id.date_search_edit);
 
@@ -71,9 +70,8 @@ public class SearchActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void clickOk(View view) {
+    public void search_Ok(View view) {
         String dateValue = date_search_edit.getText().toString();
-
         Intent intent = getIntent();
         // 加入設定的日期資料
         intent.putExtra("dateValue", dateValue);
@@ -82,10 +80,12 @@ public class SearchActivity extends AppCompatActivity {
         // 結束
         finish();
     }
-
-    public void clickCancel(View view) {
+    public void search_Cancel (View view){
         // 結束
+        Intent intent = new Intent(this,Data01Activity.class);
+        startActivity(intent);
         finish();
     }
-
 }
+
+

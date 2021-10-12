@@ -23,11 +23,9 @@
             android:text="@string/Insert"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:layout_margin="3sp"
             android:onClick="InsertPhone"
             android:clickable="true"
-            android:layout_marginLeft="1in"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
         <Button
             android:id="@+id/btn4"
@@ -45,8 +43,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="3sp"
-            android:text="@string/Search"
-            android:onClick="SearchPhone"
+            android:text="警察在哪兒"
+            android:onClick="FindPolice"
             android:clickable="true"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
     </LinearLayout>
